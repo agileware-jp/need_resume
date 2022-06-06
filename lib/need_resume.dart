@@ -18,25 +18,20 @@ class Resume {
 
 abstract class ResumableState<T extends StatefulWidget> extends State<T>
     with WidgetsBindingObserver {
-  Resume resume = new Resume();
+  Resume resume = Resume();
   bool _isPaused = false;
 
   /// Implement your code here
-  void onResume() {
-    // TODO: Implement your code here
-  }
+  void onResume() {}
 
   /// Implement your code here
-  void onReady() {
-    // TODO: Implement your code here
-  }
+  void onReady() {}
 
   /// Implement your code here
-  void onPause() {
-    // TODO: Implement your code here
-  }
+  void onPause() {}
 
-  /// This method is replacement of Navigator.push(), but fires onResume() after route popped
+  /// This method is replacement of Navigator.push(), but fires onResume()
+  /// after route popped
   Future<T?> push<T extends Object?>(BuildContext context, Route<T> route,
       [String? source]) {
     _isPaused = true;
@@ -45,15 +40,17 @@ abstract class ResumableState<T extends StatefulWidget> extends State<T>
     return Navigator.of(context).push<T>(route).then((value) {
       _isPaused = false;
 
-      resume.data = value;
-      resume.source = source;
+      resume
+        ..data = value
+        ..source = source;
 
       onResume();
       return value;
     });
   }
 
-  /// This method is replacement of Navigator.pushNamed(), but fires onResume() after route popped
+  /// This method is replacement of Navigator.pushNamed(), but fires onResume()
+  /// after route popped
   Future<T?> pushNamed<T extends Object?>(
       BuildContext context, String routeName,
       {Object? arguments}) {
@@ -65,8 +62,9 @@ abstract class ResumableState<T extends StatefulWidget> extends State<T>
         .then((value) {
       _isPaused = false;
 
-      resume.data = value;
-      resume.source = routeName;
+      resume
+        ..data = value
+        ..source = routeName;
 
       onResume();
       return value;
@@ -77,13 +75,13 @@ abstract class ResumableState<T extends StatefulWidget> extends State<T>
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance!.addObserver(this);
-    WidgetsBinding.instance!.addPostFrameCallback((_) => onReady());
+    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance.addPostFrameCallback((_) => onReady());
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
